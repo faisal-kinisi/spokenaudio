@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — SpokenAudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0c0f;--surface:#111318;--border:rgba(255,255,255,0.07);--text:#f0ede8;--muted:#7a8090;--teal:#1a9b8a;--teal-glow:rgba(26,155,138,0.15);--serif:'Instrument Serif',serif;--sans:'DM Sans',system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.65}
+nav{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(10,12,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
+.nav-logo{font-family:var(--serif);font-size:28px;color:var(--text);text-decoration:none;letter-spacing:0.01em;display:flex;align-items:center;gap:12px}
+.nav-logo img{width:44px;height:44px;border-radius:10px}
+.nav-logo span span{color:var(--teal)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--teal)!important;color:#fff!important;padding:7px 18px;border-radius:8px;font-weight:500!important}
+.hero{padding:80px 24px 60px;text-align:center;max-width:680px;margin:0 auto}
+.label{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(36px,5vw,56px);line-height:1.1;letter-spacing:0.01em;margin-bottom:16px}
+.sub{color:var(--muted);font-size:17px;font-weight:300}
+.content{max-width:760px;margin:0 auto;padding:0 24px 80px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:16px}
+.card h2{font-family:var(--serif);font-size:22px;margin-bottom:12px;letter-spacing:0.01em}
+.card p{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:16px}
+.card p:last-child{margin-bottom:0}
+.email-link{color:var(--teal);text-decoration:none;font-weight:500}
+.email-link:hover{text-decoration:underline}
+.steps{list-style:none;counter-reset:steps}
+.steps li{counter-increment:steps;display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(steps);min-width:28px;height:28px;background:var(--teal-glow);border:1px solid rgba(26,155,138,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--teal);flex-shrink:0}
+.steps li div{font-size:15px;color:var(--muted);line-height:1.6}
+.steps li strong{color:var(--text);display:block;margin-bottom:2px}
+.form-wrap{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.form-wrap input,.form-wrap textarea,.form-wrap select{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .2s}
+.form-wrap input:focus,.form-wrap textarea:focus,.form-wrap select:focus{border-color:rgba(26,155,138,.5)}
+.form-wrap textarea{min-height:120px;resize:vertical}
+.form-wrap option{background:#111318}
+.btn{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-family:var(--sans);font-size:16px;font-weight:500;cursor:pointer;transition:opacity .2s;align-self:flex-start}
+.btn:hover{opacity:.85}
+footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;max-width:1200px;margin:0 auto}
+.footer-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.footer-logo img{width:30px;height:30px;border-radius:7px}
+.footer-logo span span{color:var(--teal)}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{color:var(--muted);font-size:13px;width:100%}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo"><img src="/spokenaudio-icon.png" alt="SpokenAudio icon"><span class="nav-logo-text">Spoken<span>Audio</span></span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/faq">FAQ</a>
+    <a href="https://apps.apple.com/app/doxover/id6761037168" class="nav-cta">Download App</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="label">Support</div>
+  <h1>We're here to help.</h1>
+  <p class="sub">Most questions are answered below. If not, email us — we're a small team and respond within 5 business days.</p>
+</div>
+
+<div class="content">
+
+  <!-- Quick answers -->
+  <div class="card">
+    <h2>Quick Start</h2>
+    <ol class="steps">
+      <li><div><strong>Record</strong>Open Studio and tap the red dome button. The VU meters show your level. Tap to pause.</div></li>
+      <li><div><strong>Correct with OVR</strong>Set toggle to OVR. Spin the jog wheel left to rewind to your mistake. Tap the dome and re-record. The new audio replaces the old from that point forward.</div></li>
+      <li><div><strong>Insert with INS</strong>Set toggle to INS. Position the playhead where you want to add content. Record. New audio splices in without removing anything.</div></li>
+      <li><div><strong>Save & Export</strong>Tap Stop → Save. Find it in the Files tab. Swipe left to delete or rename. Swipe right to export as WAV, TXT, or SRT.</div></li>
+    </ol>
+  </div>
+
+  <!-- Common issues -->
+  <div class="card">
+    <h2>Common Issues</h2>
+    <ol class="steps">
+      <li><div><strong>Microphone permission denied</strong>Go to iPhone Settings → Privacy & Security → Microphone → enable SpokenAudio.</div></li>
+      <li><div><strong>Speech recognition not working</strong>Go to iPhone Settings → Privacy & Security → Speech Recognition → enable SpokenAudio. An internet connection is not required — recognition is on-device.</div></li>
+      <li><div><strong>Seek audio not playing</strong>Check Settings → Feedback → Seek audio feedback is toggled on. Oxide mode requires a recording to be loaded — open a file from the Files tab first.</div></li>
+      <li><div><strong>Trial expired — purchase not working</strong>Ensure the App Store is signed into your Apple ID. Tap Restore Purchase if you've already paid. Contact us if the issue persists.</div></li>
+      <li><div><strong>Cannot find a saved recording</strong>Recordings appear in the Files tab. Transcripts appear in the Transcripts tab. They are stored separately by design.</div></li>
+    </ol>
+  </div>
+
+  <!-- Contact -->
+  <div class="card">
+    <h2>Contact Support</h2>
+    <p>Email us at <a href="mailto:support@spokenaudio.com" class="email-link">support@spokenaudio.com</a> or use the form below. We are a small, dedicated team. Please allow up to 5 business days for a response.</p>
+
+    <!-- Formspree contact form -->
+    <form class="form-wrap" action="https://formspree.io/f/mrerejrk" method="POST">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <select name="topic">
+        <option value="" disabled selected>Topic</option>
+        <option>Recording / Playback issue</option>
+        <option>Transcription issue</option>
+        <option>Purchase / Trial issue</option>
+        <option>Export issue</option>
+        <option>Security / Encryption question</option>
+        <option>Feature request</option>
+        <option>Other</option>
+      </select>
+      <input type="text" name="device" placeholder="iPhone model & iOS version (e.g. iPhone 15, iOS 17.4)">
+      <textarea name="message" placeholder="Describe the issue in as much detail as possible…" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Privacy -->
+  <div class="card">
+    <h2>Privacy</h2>
+    <p>SpokenAudio collects no personal data. All recordings, transcripts, and preferences are stored locally on your device in AES-256-GCM encrypted form. Nothing is transmitted to any server.</p>
+    <p><a href="/privacy" class="email-link">Read the full Privacy Policy →</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/" class="footer-logo"><img src="/spokenaudio-icon.png" alt="SpokenAudio icon"><span class="footer-logo-text">Spoken<span>Audio</span></span></a>
+  <div class="footer-links">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/support">Support</a>
+    <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a>
+  </div>
+  <p class="footer-copy">© 2026 Create Simple Code LLC &nbsp;·&nbsp; SpokenAudio™ &nbsp;·&nbsp; All rights reserved.</p>
+</footer>
+</body>
+</html>
