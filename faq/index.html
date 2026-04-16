@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — SpokenAudio</title>
+<meta name="description" content="Frequently asked questions about SpokenAudio — recording, patent-pending OVR/INS editing with live transcript sync, transcription, export, security, and pricing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c0f;--surface:#111318;--surface2:#181c24;
+  --border:rgba(255,255,255,0.07);--text:#f0ede8;--muted:#7a8090;
+  --teal:#1a9b8a;--teal-glow:rgba(26,155,138,0.12);--copper:#c8874a;
+  --serif:'Instrument Serif',serif;--sans:'DM Sans',system-ui,sans-serif
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(10,12,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
+.nav-logo{font-family:var(--serif);font-size:28px;color:var(--text);text-decoration:none;letter-spacing:0.01em;display:flex;align-items:center;gap:12px}
+.nav-logo img{width:44px;height:44px;border-radius:10px}
+.nav-logo span span{color:var(--teal)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--teal)!important;color:#fff!important;padding:7px 18px;border-radius:8px;font-weight:500!important}
+
+/* HERO */
+.hero{padding:72px 24px 56px;text-align:center;max-width:680px;margin:0 auto}
+.label{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(40px,6vw,64px);line-height:1.05;letter-spacing:0.01em;margin-bottom:16px}
+.hero-sub{color:var(--muted);font-size:17px;font-weight:300;max-width:480px;margin:0 auto 36px}
+
+/* SEARCH */
+.search-wrap{max-width:560px;margin:0 auto 64px;position:relative}
+.search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 48px 14px 18px;color:var(--text);font-family:var(--sans);font-size:15px;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:rgba(26,155,138,.4)}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:16px}
+.no-results{text-align:center;color:var(--muted);padding:32px;display:none;font-size:15px}
+
+/* LAYOUT */
+.faq-layout{max-width:1060px;margin:0 auto;padding:0 24px 100px;display:grid;grid-template-columns:220px 1fr;gap:48px;align-items:start}
+@media(max-width:768px){.faq-layout{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:88px}
+.sidebar-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.sidebar-links{list-style:none;display:flex;flex-direction:column;gap:2px}
+.sidebar-links a{display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;transition:all .2s}
+.sidebar-links a:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.sidebar-links a.active{color:var(--teal);background:var(--teal-glow)}
+
+/* FAQ SECTIONS */
+.faq-section-group{margin-bottom:56px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.section-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.section-header h2{font-family:var(--serif);font-size:22px;letter-spacing:0.01em}
+
+/* ACCORDION */
+.faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;color:var(--text);font-family:var(--sans);font-size:15px;font-weight:500;text-align:left;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;transition:color .2s;line-height:1.4}
+.faq-q:hover{color:var(--teal)}
+.faq-arrow{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:var(--muted);transition:transform .3s,background .2s,border-color .2s}
+.faq-item.open .faq-arrow{transform:rotate(180deg);background:var(--teal-glow);border-color:rgba(26,155,138,.3);color:var(--teal)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.faq-item.open .faq-a{max-height:600px;padding-bottom:20px}
+.faq-a p{color:var(--muted);font-size:14px;line-height:1.75;margin-bottom:10px}
+.faq-a p:last-child{margin-bottom:0}
+.faq-a code{background:rgba(255,255,255,0.06);border-radius:4px;padding:2px 6px;font-size:13px;font-family:monospace;color:var(--teal)}
+.faq-a ul{list-style:none;margin:8px 0;padding:0}
+.faq-a ul li{color:var(--muted);font-size:14px;padding:4px 0 4px 16px;position:relative;line-height:1.65}
+.faq-a ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-size:12px;top:5px}
+.tip{background:var(--teal-glow);border:1px solid rgba(26,155,138,.2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);margin-top:10px}
+.tip strong{color:var(--teal)}
+
+/* STILL NEED HELP */
+.help-cta{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;text-align:center;max-width:560px;margin:0 auto 80px}
+.help-cta h3{font-family:var(--serif);font-size:24px;margin-bottom:10px}
+.help-cta p{color:var(--muted);font-size:15px;margin-bottom:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:#fff;padding:12px 24px;border-radius:10px;font-size:15px;font-weight:500;text-decoration:none;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted);margin-left:10px}
+.btn-ghost:hover{border-color:rgba(255,255,255,.2);color:var(--text);opacity:1}
+
+footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;max-width:1200px;margin:0 auto}
+.footer-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.footer-logo img{width:30px;height:30px;border-radius:7px}
+.footer-logo span span{color:var(--teal)}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{color:var(--muted);font-size:13px;width:100%}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><img src="/spokenaudio-icon.png" alt="SpokenAudio icon"><span class="nav-logo-text">Spoken<span>Audio</span></span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/support">Support</a>
+    <a href="/privacy">Privacy</a>
+    <a href="https://apps.apple.com/app/doxover/id6761037168" class="nav-cta">Download App</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="label">Help Center</div>
+  <h1>Frequently<br><em style="font-style:italic;color:var(--teal)">asked.</em></h1>
+  <p class="hero-sub">Everything you need to know about recording, editing, transcription, security, and pricing.</p>
+</div>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Search questions… e.g. OVR, export, trial" autocomplete="off">
+  <span class="search-icon">⌕</span>
+</div>
+
+<div class="faq-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Categories</div>
+    <ul class="sidebar-links">
+      <li><a href="#getting-started" class="active">Getting Started</a></li>
+      <li><a href="#recording">Recording</a></li>
+      <li><a href="#ovr-ins">OVR &amp; INS Editing</a></li>
+      <li><a href="#jog-wheel">Jog Wheel &amp; Seek</a></li>
+      <li><a href="#transcription">Transcription</a></li>
+      <li><a href="#files-export">Files &amp; Export</a></li>
+      <li><a href="#security">Security &amp; Privacy</a></li>
+      <li><a href="#trial-pricing">Trial &amp; Pricing</a></li>
+      <li><a href="#hipaa">HIPAA &amp; Clinical Use</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </aside>
+
+  <!-- FAQ content -->
+  <main id="faq-main">
+
+    <!-- GETTING STARTED -->
+    <div class="faq-section-group" id="getting-started" data-section="getting-started">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(26,155,138,0.12)">🚀</div>
+        <h2>Getting Started</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I make my first recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Open SpokenAudio and tap the Studio tab at the bottom. Tap the large red dome button to begin recording — the VU meters will light up to show your microphone level. Speak clearly and tap the dome again to pause. When you're finished, tap the Stop button (square) and choose Save. Your recording appears in the Files tab.</p>
+          <div class="tip"><strong>Tip:</strong> Speak at a normal conversational pace. SpokenAudio's transcription is tuned for clear speech — no need to slow down artificially.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What permissions does SpokenAudio need?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>SpokenAudio requires three permissions:</p>
+          <ul>
+            <li><strong>Microphone</strong> — required to record your voice</li>
+            <li><strong>Speech Recognition</strong> — required for live transcription (on-device only, no audio transmitted)</li>
+            <li><strong>Face ID / Touch ID</strong> — optional, only if you enable the lock screen in Settings</li>
+          </ul>
+          <p>If you denied a permission during setup, go to iPhone Settings → Privacy &amp; Security → enable each permission for SpokenAudio.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the difference between the Studio, Files, and Transcripts tabs?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p><strong>Studio</strong> is where you record, edit, and listen. It contains the jog wheel, VU meters, OVR/INS toggle, and live transcript.</p>
+          <p><strong>Files</strong> shows all your saved recordings. Tap a row to open it in Studio for playback or editing. Swipe left to rename or delete. Swipe right to export.</p>
+          <p><strong>Transcripts</strong> shows all generated transcripts. These are stored separately from audio — you can delete audio and keep the transcript as a permanent text record.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I find a recording I saved?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Tap the Files tab. Your recordings appear in reverse chronological order (newest first). Tap any row to open it in Studio. Use the search bar at the top of the Files tab to search by name.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECORDING -->
+    <div class="faq-section-group" id="recording" data-section="recording">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(200,135,74,0.12)">🎙</div>
+        <h2>Recording</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I pause and resume a recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. Tap the dome button to pause — the VU meters stop and the jog wheel becomes active so you can scrub through what you've recorded. Tap the dome again to resume recording from the pause point. You can pause and resume as many times as you need in a single session.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is there a recording length limit?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>With Pocket, there is no limit — record for as long as you need. The only practical limit is your iPhone's available storage. SpokenAudio displays a storage usage indicator in the Files tab.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What audio format does SpokenAudio record in?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>SpokenAudio records at 16kHz mono by default — optimised for voice clarity and transcription accuracy. Recordings are exported as standard WAV files compatible with all audio software. High-quality audio (44.1kHz / 48kHz stereo) is planned for the Suite tier in a future update.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does SpokenAudio record in stereo?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Currently SpokenAudio records in mono at 16kHz. Stereo recording is a planned feature for the Suite tier. For voice dictation, mono at 16kHz delivers excellent clarity and keeps file sizes small without any loss in intelligibility.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I use an external microphone or AirPods?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. iOS automatically routes to the best available microphone. When AirPods or EarPods are connected, SpokenAudio uses the earpiece microphone — which is significantly better at isolating your voice in noisy environments like a car or busy clinic. This is the recommended setup for dictating in loud environments.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVR / INS -->
+    <div class="faq-section-group" id="ovr-ins" data-section="ovr-ins">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(61,184,122,0.12)">✂️</div>
+        <h2>OVR &amp; INS Editing (Patent Pending)</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is OVR (Overwrite) mode?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>OVR mode lets you re-record over a mistake without re-recording your entire dictation. Here's how it works:</p>
+          <ul>
+            <li>Pause recording</li>
+            <li>Set the toggle to OVR</li>
+            <li>Spin the jog wheel left to rewind to just before your mistake</li>
+            <li>Tap the dome to record — your new audio replaces the old from that point forward</li>
+            <li>Your transcript updates automatically in real time as you speak</li>
+            <li>Tap pause when you've corrected the mistake</li>
+          </ul>
+          <p>Everything before the cursor position is completely untouched. Both the audio and the transcript are corrected simultaneously — no manual text editing needed. This is the fastest way to fix a single word or sentence.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is INS (Insert) mode?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>INS mode splices new audio into your recording without removing anything. Position the playhead at the point where you want to add content, then record. The new audio is inserted at the cursor and everything after it shifts forward in time — and the transcript updates live as you speak, inserting new text at the correct position. Use INS when you forgot to mention something and need to add a sentence in the middle of a recording.</p>
+          <div class="tip"><strong>Example:</strong> You said "The patient is prescribed lisinopril" but forgot to mention the dosage. Use INS to add "10mg daily" immediately after "lisinopril" — the new words appear in your transcript in real time, right where they belong, without touching the rest of the recording.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What makes the live transcript sync during OVR/INS unique?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>SpokenAudio's patent-pending live speech-to-text synchronization means your transcript stays perfectly aligned with your audio during OVR and INS edits. When you overwrite a section, the old transcript text is removed and replaced with new text as you speak. When you insert, new text appears at the insertion point and existing text shifts forward — all in real time. No other mobile dictation app offers this. The audio, transcript, and modification record all update simultaneously.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I undo an OVR or INS edit?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. SpokenAudio supports up to 100 undo levels with Pocket. Tap the undo button (circular arrow) in the Studio view to step back one edit at a time. Each OVR and INS edit is tracked in the modification record, which logs a timestamp for every change made to a recording.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I switch between OVR and INS mid-session?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes, but only while the recording is paused — the toggle is locked during active recording to prevent accidental mode switches. Pause, change the mode, then position the playhead and resume. You can alternate between OVR and INS as many times as needed within a single session.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the Modification Record?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>The Modification Record is a timestamped log of every OVR and INS edit made to a recording — including what was changed and when. Tap the undo/pencil button in the Studio toolbar to view it. This is useful for audit purposes in clinical and legal settings where a chain of evidence is important.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOG WHEEL -->
+    <div class="faq-section-group" id="jog-wheel" data-section="jog-wheel">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(26,155,138,0.12)">🎛</div>
+        <h2>Jog Wheel &amp; Seek Audio</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How does the jog wheel work?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>The jog wheel is SpokenAudio's transport control — the dial in the center of the Studio view. It becomes active when a recording is paused or loaded. Drag your finger clockwise to move forward in the recording, counter-clockwise to rewind. The speed of your drag controls how fast you seek — slow for precision, fast for long jumps.</p>
+          <p>Hold and tap the REW button (left) to jump instantly to the very beginning. Hold and tap the FF button (right) to jump to the end.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is Oxide seek audio?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>When you scrub through a recording using the jog wheel, Oxide mode plays your own voice back at the seek speed — like a real cassette dictaphone rewinding. This gives you an immediate audio cue for where you are in the recording without having to watch the timer. The faster you spin, the faster your voice plays.</p>
+          <p>You can switch to Electro mode (a clean electronic sweep tone) or turn seek audio off entirely in Settings → Feedback.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I change or disable the seek audio?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. Go to Settings → Feedback → Seek audio feedback. You have three options:</p>
+          <ul>
+            <li><strong>Oxide</strong> — your recorded voice played at seek speed (default)</li>
+            <li><strong>Electro</strong> — a clean electronic sweep tone</li>
+            <li><strong>Off</strong> — silent seek</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSCRIPTION -->
+    <div class="faq-section-group" id="transcription" data-section="transcription">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(200,135,74,0.12)">📝</div>
+        <h2>Transcription</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does transcription require an internet connection?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>No. SpokenAudio uses Apple's on-device Speech Recognition framework which runs entirely on your iPhone — no internet connection required, no audio transmitted to any server. Your voice never leaves your device during transcription. This is a core design requirement for HIPAA-conscious workflows.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How accurate is the transcription?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Transcription accuracy depends on your speech clarity, background noise, and microphone quality. Apple's on-device recognition performs very well for clear, conversational speech in quiet environments. Accuracy decreases in loud environments (cars, busy offices). For best results:</p>
+          <ul>
+            <li>Use AirPods or EarPods in noisy environments</li>
+            <li>Speak at a natural pace — don't slow down artificially</li>
+            <li>Enunciate medical terms clearly — the recognizer handles common medical vocabulary well</li>
+            <li>Use the word correction feature to fix any errors immediately after recording</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I correct words in the transcript?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. With Pocket, tap any word in the transcript to correct it. A correction panel appears where you can type the correct text. Corrections are logged with a timestamp in the modification record. Low-confidence words are highlighted in the transcript so you can spot potential errors quickly.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I generate a transcript from a saved recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes. Open any recording from the Files tab. Tap the transcript icon (document icon) in the toolbar. SpokenAudio will process the recording and generate a transcript. This works for recordings made at any time — the transcript is generated on-demand, not just during live recording.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I delete audio but keep the transcript?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Yes — and this is by design. In the Files tab, swipe left on a recording and choose "Delete Audio Only." The encrypted audio file is removed from your device but the transcript remains permanently in the Transcripts tab. This is useful when you need a text record but don't want to retain the voice recording itself.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILES & EXPORT -->
+    <div class="faq-section-group" id="files-export" data-section="files-export">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(26,155,138,0.12)">📤</div>
+        <h2>Files &amp; Export</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What formats can I export?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>With Pocket, SpokenAudio exports three formats:</p>
+          <ul>
+            <li><strong>WAV</strong> — uncompressed audio, compatible with all audio software and transcription platforms</li>
+            <li><strong>TXT</strong> — plain text transcript</li>
+            <li><strong>SRT</strong> — timestamped subtitle format, compatible with video editors, court reporting tools, and medical transcription software</li>
+          </ul>
+          <p>MP3, M4A, and DOCX (with track changes) export are planned for the Suite tier in a future update.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I export a recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>In the Files tab, swipe right on any recording row. An Export button appears. Tap it to open the export picker where you can choose WAV, TXT, or SRT (or any combination). Tap Share to open iOS's standard share sheet — send to Mail, Files, AirDrop, or any connected app.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I rename a recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>In the Files tab, swipe left on the recording row and tap Rename. Enter the new name and confirm. Recordings are named automatically by date and time when saved — rename them to match your filing system (e.g. patient initials, case number, date of service).</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I delete a recording?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Swipe left on the recording row in the Files tab. You'll see options based on what the recording contains:</p>
+          <ul>
+            <li><strong>Delete Audio Only</strong> — removes the audio file, keeps the transcript</li>
+            <li><strong>Delete Everything</strong> — removes both audio and transcript permanently</li>
+          </ul>
+          <p>Tap the info icon (ⓘ) on any recording for full details and a "Delete Everything" option. Deletion is permanent — there is no recycle bin.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="faq-section-group" id="security" data-section="security">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(26,155,138,0.12)">🔐</div>
+        <h2>Security &amp; Privacy</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How are my recordings encrypted?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Every recording and transcript is encrypted using AES-256-GCM authenticated encryption before it is written to your device's storage. AES-256-GCM is the same standard used by governments, banks, and Apple itself. Encryption keys are generated per-device and stored exclusively in the iOS Secure Enclave — a dedicated hardware chip that is isolated from the main processor. Neither Create Simple Code LLC nor any third party has access to these keys.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does any of my data go to the cloud?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Never. SpokenAudio has no cloud component. Recordings, transcripts, and preferences are stored exclusively on your device. No data is transmitted to Create Simple Code LLC or any third-party server. SpokenAudio includes no analytics SDKs, no crash reporting, and no advertising. There is no account or login system — nothing to sync.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How does the Face ID lock work?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Enable biometric lock in Settings → Security → Require Face ID (or Touch ID). When active, SpokenAudio locks when you leave the app and requires Face ID or Touch ID to reopen. SpokenAudio does not access, process, or store any biometric data — authentication is handled entirely by iOS. If Face ID fails, you can unlock with your device passcode.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What happens if I lose my iPhone?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>All recordings are encrypted with keys in the Secure Enclave. Without your device passcode and biometric authentication, the encrypted data is inaccessible. For additional security, use Settings → Secure Deletion in SpokenAudio before reporting the device lost — this destroys all encryption keys, making the data permanently unreadable even with physical access to the device.</p>
+          <p>You can also remotely erase your device via iCloud's Find My feature, which removes all local data including SpokenAudio's encrypted files.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is Secure Deletion?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Secure Deletion (Settings → Secure Deletion) destroys all encryption keys stored in the Secure Enclave. Because the encrypted data can only be decrypted with those keys, destroying the keys makes all recordings permanently and irrecoverably unreadable — even with physical access to the storage chips. This is stronger than simply deleting files, which may leave recoverable data on flash storage.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRIAL & PRICING -->
+    <div class="faq-section-group" id="trial-pricing" data-section="trial-pricing">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(200,135,74,0.12)">💳</div>
+        <h2>Trial &amp; Pricing</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How does the 7-day free trial work?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Download SpokenAudio free from the App Store. Full Pocket access starts immediately — no payment information required, no credit card, no signup. You have 7 days to use every feature. After 7 days, the app shows a one-time purchase option for $14.99 to keep access permanently. Your recordings and transcripts are preserved regardless.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is there a subscription?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>No. SpokenAudio Pocket is a one-time purchase of $14.99. No monthly fees. No annual renewal. No recurring charges of any kind. Buy once, own forever. A Suite tier with additional professional features is planned as an optional subscription in a future update — but Pocket will always remain a one-time purchase.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What if I purchased on one device and want to use on another?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Your purchase is tied to your Apple ID. On any new iPhone, download SpokenAudio and go to Settings → Restore Purchase. SpokenAudio will verify your purchase with Apple and unlock Pocket at no additional charge. You can use the same purchase on all iPhones signed into the same Apple ID.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What happens to my recordings after the trial expires?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>All your recordings and transcripts are preserved on your device — they are not deleted when the trial expires. You will see a lock screen prompting you to purchase Pocket to regain access. Once you purchase, everything is immediately accessible again.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is coming in future versions?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>The SpokenAudio roadmap includes:</p>
+          <ul>
+            <li><strong>Suite tier</strong> — high-quality audio (44.1/48kHz), MP3 and M4A export, DOCX with track changes, configurable auto-lock</li>
+            <li><strong>Noise isolation</strong> — optional voice processing toggle for dictating in noisy environments</li>
+            <li><strong>Enterprise tier</strong> — multilingual transcription, EHR/EMR integration, team management, audit log</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIPAA -->
+    <div class="faq-section-group" id="hipaa" data-section="hipaa">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(26,155,138,0.12)">🏥</div>
+        <h2>HIPAA &amp; Clinical Use</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is SpokenAudio HIPAA compliant?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>SpokenAudio's architecture meets the technical safeguard requirements of the HIPAA Security Rule — AES-256-GCM encryption, Secure Enclave key storage, no cloud transmission, no third-party SDKs. However, Create Simple Code LLC is a software developer, not a covered entity or business associate under HIPAA. Whether your specific use of SpokenAudio satisfies all HIPAA requirements for your organization depends on your workflows, policies, and compliance obligations. Consult your compliance officer or legal counsel before using SpokenAudio for PHI.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is there a Business Associate Agreement (BAA) available?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>A BAA is not currently available. Because SpokenAudio does not receive, process, or store any data on behalf of covered entities (all data stays on your device), a BAA may not be required for your use case. Consult your HIPAA compliance officer. A BAA is planned as part of the future Enterprise tier for organizational deployments.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I use SpokenAudio for patient dictation?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>SpokenAudio is used by healthcare professionals for clinical dictation. The on-device architecture, AES-256 encryption, and zero-transmission design make it well-suited for sensitive voice notes. That said, compliance with HIPAA and your institution's policies is your responsibility. We recommend reviewing your organization's mobile device and software policies before adopting SpokenAudio for patient care workflows.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does SpokenAudio transmit to any third party including Apple?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>No. SpokenAudio contains no analytics, crash reporting, or advertising SDKs. In-app purchases are processed by Apple's StoreKit — Apple handles only the payment transaction and does not receive any recording data. Speech recognition uses Apple's on-device framework which, per Apple's documentation, does not transmit audio when running in on-device mode on iOS 17 and later.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <div class="faq-section-group" id="troubleshooting" data-section="troubleshooting">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(200,135,74,0.12)">🔧</div>
+        <h2>Troubleshooting</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">The microphone button does nothing when I tap it.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Most likely SpokenAudio does not have microphone permission. Go to iPhone Settings → Privacy &amp; Security → Microphone → toggle SpokenAudio on. Return to the app and try again. If the button still does nothing, force-quit SpokenAudio (swipe up from the home bar and swipe the app away) and reopen it.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">The live transcript isn't appearing during recording.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Check Speech Recognition permission: iPhone Settings → Privacy &amp; Security → Speech Recognition → enable SpokenAudio. Also confirm you are speaking clearly and close to the microphone. Speech recognition initialises within the first second or two of recording — there may be a brief delay before the first words appear.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Oxide seek audio isn't playing when I use the jog wheel.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Oxide seek audio only plays when a recording is loaded in Studio. If you are in a fresh (empty) session, there is no audio to play back. Open a saved recording from the Files tab, then try the jog wheel. Also check Settings → Feedback → Seek audio feedback is set to Oxide and not Off.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">The purchase button does nothing.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>In-app purchases require an active App Store account and internet connection. Check that you are signed into the App Store (iPhone Settings → App Store). If you have already purchased, tap Restore Purchase instead — this will verify your purchase with Apple and unlock Pocket immediately at no charge.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">SpokenAudio is asking for Face ID but I didn't enable it.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>If the lock screen appears unexpectedly, biometric lock may have been enabled in Settings. Go to Settings → Security → Require Face ID and toggle it off. If you cannot get past the lock screen, use your device passcode when prompted after a failed Face ID attempt.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">A recording I saved isn't appearing in the Files tab.<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>Pull down on the Files list to refresh it. If the recording still doesn't appear, confirm the save completed — if SpokenAudio was force-quit during the save dialog the recording may not have been written. Also check that you're not filtering the list (clear any active search text at the top of the Files tab).</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Still need help -->
+<div class="help-cta">
+  <h3>Still have a question?</h3>
+  <p>SpokenAudio is built by a small, dedicated team. Please allow up to 5 business days for a response.</p>
+  <a href="/support" class="btn">Contact Support</a>
+  <a href="mailto:support@spokenaudio.com" class="btn btn-ghost">Email Us</a>
+</div>
+
+<footer>
+  <a href="/" class="footer-logo"><img src="/spokenaudio-icon.png" alt="SpokenAudio icon"><span class="footer-logo-text">Spoken<span>Audio</span></span></a>
+  <div class="footer-links">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/support">Support</a>
+    <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Create Simple Code LLC &nbsp;&middot;&nbsp; SpokenAudio&trade; &nbsp;&middot;&nbsp; All rights reserved.</p>
+</footer>
+
+<script>
+// ── ACCORDION ──
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    // Close all in same section
+    btn.closest('.faq-section-group').querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ── SEARCH ──
+const searchInput = document.getElementById('search');
+const allItems = document.querySelectorAll('.faq-item');
+const allGroups = document.querySelectorAll('.faq-section-group');
+const noResults = document.querySelector('.no-results');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  if (!q) {
+    allItems.forEach(i => i.style.display = '');
+    allGroups.forEach(g => g.style.display = '');
+    if (noResults) noResults.style.display = 'none';
+    return;
+  }
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupVisible = false;
+    group.querySelectorAll('.faq-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(q)) {
+        item.style.display = '';
+        item.classList.add('open');
+        groupVisible = true;
+        anyVisible = true;
+      } else {
+        item.style.display = 'none';
+        item.classList.remove('open');
+      }
+    });
+    group.style.display = groupVisible ? '' : 'none';
+  });
+  if (noResults) noResults.style.display = anyVisible ? 'none' : 'block';
+});
+
+// ── SIDEBAR ACTIVE STATE ──
+const sections = document.querySelectorAll('.faq-section-group');
+const sidebarLinks = document.querySelectorAll('.sidebar-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      sidebarLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
