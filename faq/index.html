@@ -436,6 +436,13 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
       </div>
 
       <div class="faq-item">
+        <button class="faq-q">What does "encrypted at rest" mean?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a">
+          <p>"Encrypted at rest" means your recordings and transcripts are encrypted whenever they are stored on your device. The raw files are unreadable without the decryption key, which is held in the iOS Secure Enclave. When you open a transcript to read it, SpokenAudio decrypts it temporarily in memory for display — but the file on disk always remains encrypted. If someone accessed your device's storage directly, they would see only encrypted data. This is a key requirement for HIPAA compliance and protects your recordings even if the device is lost or stolen.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
         <button class="faq-q">Does any of my data go to the cloud?<span class="faq-arrow">▾</span></button>
         <div class="faq-a">
           <p>Never. SpokenAudio has no cloud component. Recordings, transcripts, and preferences are stored exclusively on your device. No data is transmitted to Create Simple Code LLC or any third-party server. SpokenAudio includes no analytics SDKs, no crash reporting, and no advertising. There is no account or login system — nothing to sync.</p>
