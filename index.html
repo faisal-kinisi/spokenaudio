@@ -1,1219 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpokenAudio — Secure Dictation & Live Transcript</title>
-<meta name="description" content="Professional voice dictation with patent-pending OVR/INS editing, live transcription, and AES-256 encryption. Built for physicians and attorneys. Free 7-day trial.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg:        #0a0c0f;
-  --surface:   #111318;
-  --surface2:  #181c24;
-  --border:    rgba(255,255,255,0.07);
-  --text:      #f0ede8;
-  --muted:     #7a8090;
-  --teal:      #1a9b8a;
-  --teal-glow: rgba(26,155,138,0.18);
-  --copper:    #c8874a;
-  --copper-glow: rgba(200,135,74,0.15);
-  --emerald:   #3db87a;
-  --navy:      #1a2b4a;
-  --serif:     'Instrument Serif', Georgia, serif;
-  --sans:      'DM Sans', system-ui, sans-serif;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 17px;
-  line-height: 1.65;
-  overflow-x: hidden;
-}
-
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px;
-  height: 64px;
-  background: rgba(10,12,15,0.82);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-logo {
-  font-family: var(--serif);
-  font-size: 28px;
-  color: var(--text);
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.nav-logo img {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-}
-.nav-logo span span { color: var(--teal); }
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--text); }
-.nav-cta {
-  background: var(--teal) !important;
-  color: #fff !important;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  transition: opacity 0.2s !important;
-}
-.nav-cta:hover { opacity: 0.85; }
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 120px 24px 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-glow {
-  position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(26,155,138,0.12) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -55%);
-  pointer-events: none;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(26,155,138,0.1);
-  border: 1px solid rgba(26,155,138,0.25);
-  border-radius: 100px;
-  padding: 6px 14px;
-  font-size: 13px;
-  color: var(--teal);
-  margin-bottom: 28px;
-  animation: fadeUp 0.6s ease both;
-}
-.hero-badge::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--teal);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-h1 {
-  font-family: var(--serif);
-  font-size: clamp(48px, 7vw, 88px);
-  line-height: 1.05;
-  letter-spacing: 0.01em;
-  color: var(--text);
-  max-width: 820px;
-  animation: fadeUp 0.7s 0.1s ease both;
-}
-h1 em {
-  font-style: italic;
-  color: var(--teal);
-}
-
-.hero-sub {
-  font-size: 19px;
-  color: var(--muted);
-  max-width: 540px;
-  margin: 24px auto 0;
-  font-weight: 300;
-  animation: fadeUp 0.7s 0.2s ease both;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 40px;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeUp 0.7s 0.3s ease both;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--teal);
-  color: #fff;
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 0 0 0 var(--teal-glow);
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(26,155,138,0.3);
-}
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 400;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.btn-secondary:hover { background: rgba(255,255,255,0.1); }
-
-.hero-qr {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-  animation: fadeUp 0.7s 0.35s ease both;
-}
-.hero-qr img {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  background: #fff;
-  padding: 4px;
-}
-.hero-qr span {
-  font-size: 12px;
-  color: var(--muted);
-}
-@media (max-width: 768px) {
-  .hero-qr { display: none; }
-}
-
-.hero-note {
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--muted);
-  animation: fadeUp 0.7s 0.4s ease both;
-}
-
-/* ── DEVICE MOCKUP ── */
-.device-wrap {
-  margin-top: 72px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  animation: fadeUp 0.9s 0.4s ease both;
-}
-.device {
-  width: 280px;
-  height: 560px;
-  background: var(--surface);
-  border-radius: 48px;
-  border: 1px solid rgba(255,255,255,0.12);
-  position: relative;
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 40px 80px rgba(0,0,0,0.6),
-    0 0 60px var(--teal-glow);
-}
-.device-notch {
-  position: absolute;
-  top: 16px; left: 50%;
-  transform: translateX(-50%);
-  width: 100px; height: 32px;
-  background: #000;
-  border-radius: 100px;
-  z-index: 10;
-}
-.device-screen {
-  position: absolute;
-  inset: 0;
-  background: #1a1e2a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 60px;
-}
-
-/* VU Meters */
-.vu-row {
-  display: flex;
-  gap: 4px;
-  width: 80%;
-  margin-bottom: 20px;
-}
-.vu-bar {
-  flex: 1;
-  height: 48px;
-  background: rgba(61,184,122,0.12);
-  border-radius: 3px;
-  position: relative;
-  overflow: hidden;
-}
-.vu-fill {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: linear-gradient(to top, #3db87a, #1a9b8a);
-  border-radius: 3px;
-  animation: vu-animate 0.15s ease infinite alternate;
-}
-
-/* Jog wheel */
-.jog-ring {
-  width: 140px; height: 140px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.15);
-  background: radial-gradient(circle at 35% 35%, #2a2e3a, #1a1e28);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
-}
-.jog-center {
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  background: var(--copper);
-  box-shadow: 0 0 16px rgba(200,135,74,0.4);
-}
-.jog-dot {
-  position: absolute;
-  top: 8px; left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  animation: jog-spin 4s linear infinite;
-  transform-origin: 3px 63px;
-}
-@keyframes jog-spin { to { transform: rotate(360deg) translateX(-50%); } }
-
-/* OVR/INS toggle */
-.ovr-ins {
-  display: flex;
-  background: rgba(0,0,0,0.4);
-  border-radius: 100px;
-  padding: 3px;
-  gap: 3px;
-  width: 80%;
-  margin-bottom: 12px;
-}
-.ovr-btn, .ins-btn {
-  flex: 1;
-  text-align: center;
-  padding: 6px 0;
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  transition: all 0.3s;
-}
-.ovr-btn.active {
-  background: rgba(220,80,80,0.25);
-  color: #ff6b6b;
-}
-.ins-btn.active {
-  background: rgba(61,184,122,0.25);
-  color: #3db87a;
-}
-.ovr-btn:not(.active), .ins-btn:not(.active) {
-  color: rgba(255,255,255,0.25);
-}
-
-/* Live transcript strip */
-.transcript-strip {
-  width: 80%;
-  background: rgba(255,255,255,0.04);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 9px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.5;
-  text-align: left;
-}
-.transcript-strip .word { display: inline; }
-.transcript-strip .word.pending {
-  color: var(--teal);
-  animation: blink 1s ease infinite;
-}
-@keyframes blink { 50% { opacity: 0.4; } }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── OVR/INS DEMO ── */
-.demo-section {
-  padding: 120px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.section-label {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 16px;
-}
-.section-title {
-  font-family: var(--serif);
-  font-size: clamp(36px, 5vw, 60px);
-  line-height: 1.1;
-  letter-spacing: 0.01em;
-  margin-bottom: 16px;
-}
-.section-sub {
-  font-size: 18px;
-  color: var(--muted);
-  max-width: 500px;
-  font-weight: 300;
-}
-
-.demo-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  margin-top: 60px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-.demo-card {
-  background: var(--surface);
-  padding: 40px 36px;
-  position: relative;
-  overflow: hidden;
-}
-.demo-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-}
-.demo-card.ovr::before { background: linear-gradient(90deg, #ff6b6b, transparent); }
-.demo-card.ins::before { background: linear-gradient(90deg, var(--teal), transparent); }
-
-.demo-mode-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  margin-bottom: 16px;
-}
-.ovr .demo-mode-badge { background: rgba(220,80,80,0.15); color: #ff8080; }
-.ins .demo-mode-badge { background: rgba(61,184,122,0.15); color: #3db87a; }
-
-.demo-card h3 {
-  font-family: var(--serif);
-  font-size: 26px;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-.demo-card p { color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 28px; }
-
-/* Animated waveform visualization */
-.waveform {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  height: 48px;
-  margin-bottom: 20px;
-}
-.wave-bar {
-  width: 4px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 2px;
-  transition: height 0.3s ease, background 0.3s;
-}
-.wave-bar.old { background: rgba(255,255,255,0.15); }
-.wave-bar.new { background: var(--teal); }
-.wave-bar.removed { background: rgba(220,80,80,0.4); }
-.wave-bar.cursor {
-  background: var(--copper);
-  width: 2px;
-  animation: cursor-blink 0.8s infinite;
-}
-@keyframes cursor-blink { 50% { opacity: 0; } }
-
-/* Text animation */
-.demo-text-wrap {
-  background: rgba(0,0,0,0.3);
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--muted);
-  min-height: 60px;
-}
-.demo-text-wrap .word { display: inline; transition: all 0.3s; }
-.demo-text-wrap .word.replaced { color: var(--emerald); font-weight: 500; }
-.demo-text-wrap .word.error { color: #ff6b6b; opacity: 0.7; }
-.demo-text-wrap .word.struck { color: #ff6b6b; text-decoration: line-through; opacity: 0.5; }
-.demo-text-wrap .word.inserted { color: var(--emerald); font-weight: 500; }
-
-.demo-text-wrap .typing-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background: var(--copper);
-  vertical-align: text-bottom;
-  margin: 0 1px;
-  animation: cursor-blink 0.6s infinite;
-}
-@keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-.demo-status {
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.03em;
-  min-height: 18px;
-}
-
-.demo-screenshot {
-  margin-top: 48px;
-  text-align: center;
-}
-.demo-screenshot img {
-  max-width: 300px;
-  width: 100%;
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px var(--teal-glow);
-}
-.demo-screenshot-caption {
-  margin-top: 16px;
-  font-size: 14px;
-  color: var(--muted);
-  font-weight: 300;
-}
-
-/* ── FEATURES GRID ── */
-.features-section {
-  padding: 80px 24px 120px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  margin-top: 60px;
-}
-.feature-card {
-  background: var(--surface);
-  padding: 36px 32px;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.3s;
-}
-.feature-card:hover { background: var(--surface2); }
-.feature-card:first-child { border-radius: 20px 0 0 0; }
-.feature-card:nth-child(3) { border-radius: 0 20px 0 0; }
-.feature-card:nth-child(4) { border-radius: 0 0 0 20px; }
-.feature-card:last-child { border-radius: 0 0 20px 0; }
-
-.feature-icon {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 20px;
-  font-size: 20px;
-}
-.feature-card h3 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
-.feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-
-/* ── SECURITY SECTION ── */
-.security-section {
-  padding: 80px 24px 120px;
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-.security-badges {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.security-badge {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px 24px;
-  transition: border-color 0.3s;
-}
-.security-badge:hover { border-color: rgba(26,155,138,0.3); }
-.security-badge-icon {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  background: var(--teal-glow);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-.security-badge h4 { font-size: 15px; font-weight: 500; margin-bottom: 2px; }
-.security-badge p { color: var(--muted); font-size: 13px; }
-
-/* ── PRICING ── */
-.pricing-section {
-  padding: 80px 24px 120px;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.pricing-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 48px 48px 40px;
-  margin-top: 48px;
-  position: relative;
-  overflow: hidden;
-}
-.pricing-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--teal), var(--copper));
-}
-.pricing-tier {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 12px;
-}
-.pricing-price {
-  font-family: var(--serif);
-  font-size: 72px;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.pricing-price sup { font-size: 32px; vertical-align: top; margin-top: 12px; display: inline-block; }
-.pricing-note { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
-.pricing-features {
-  list-style: none;
-  text-align: left;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 32px;
-  margin-bottom: 36px;
-}
-.pricing-features li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.pricing-features li::before {
-  content: '✓';
-  color: var(--teal);
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.trial-badge {
-  display: inline-block;
-  background: var(--copper-glow);
-  border: 1px solid rgba(200,135,74,0.3);
-  color: var(--copper);
-  padding: 8px 18px;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-
-/* ── FAQ ── */
-.faq-section {
-  padding: 80px 24px 120px;
-  max-width: 720px;
-  margin: 0 auto;
-}
-.faq-item {
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-}
-.faq-q {
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 500;
-  text-align: left;
-  padding: 24px 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  transition: color 0.2s;
-}
-.faq-q:hover { color: var(--teal); }
-.faq-arrow {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  font-size: 12px;
-  transition: transform 0.3s, background 0.2s;
-}
-.faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--teal-glow); }
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.3s;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.7;
-}
-.faq-item.open .faq-a { max-height: 300px; padding-bottom: 24px; }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 48px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.footer-logo {
-  font-family: var(--serif);
-  font-size: 20px;
-  color: var(--text);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.footer-logo img {
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
-}
-.footer-logo span span { color: var(--teal); }
-.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
-.footer-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--text); }
-.footer-copy { color: var(--muted); font-size: 13px; width: 100%; }
-
-/* ── SUPPORT CHAT PLACEHOLDER ── */
-.chat-fab {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  width: 56px; height: 56px;
-  background: var(--teal);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 24px rgba(26,155,138,0.4);
-  z-index: 200;
-  transition: transform 0.2s;
-  border: none;
-  color: white;
-  font-size: 22px;
-}
-.chat-fab:hover { transform: scale(1.08); }
-
-/* ── SCROLL REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  .demo-grid, .features-grid, .security-section { grid-template-columns: 1fr; }
-  .pricing-features { grid-template-columns: 1fr; }
-  .security-section { gap: 48px; }
-  footer { flex-direction: column; align-items: flex-start; }
-}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpokenAudio — Dictation for iPhone, transcribed live, all on your device</title>
+<meta name="description" content="Dictate, correct and insert by voice, with a live transcript. On your iPhone, encrypted with AES-256, no cloud, no subscription. $9.99 once after a 7-day free trial.">
+<meta name="theme-color" content="#1C1E26">
+<link rel="icon" href="/spokenaudio-icon.png">
+<link rel="apple-touch-icon" href="/spokenaudio-icon.png">
+<meta property="og:title" content="SpokenAudio — Dictation for iPhone, transcribed live, all on your device">
+<meta property="og:description" content="Dictate, correct and insert by voice, with a live transcript. On your iPhone, encrypted with AES-256, no cloud, no subscription. $9.99 once after a 7-day free trial.">
+<meta property="og:image" content="https://spokenaudio.com/spokenaudio-icon.png">
+<meta name="apple-itunes-app" content="app-id=6761037168">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-
-<!-- NAV -->
+<header class="nav"><div class="wrap">
+<a class="brand" href="/"><img src="/spokenaudio-icon.png" alt="">SpokenAudio</a>
 <nav>
-  <a href="#" class="nav-logo"><img src="spokenaudio-icon.png" alt="SpokenAudio icon"><span class="nav-logo-text">Spoken<span>Audio</span></span></a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#security">Security</a>
-    <a href="#pricing">Pricing</a>
-    <a href="/faq">FAQ</a>
-    <a href="/support">Support</a>
-    <a href="https://apps.apple.com/app/doxover/id6761037168" class="nav-cta">Download App</a>
-  </div>
+<a href="/#features" class="hide-s">Features</a><a href="/#security" class="hide-s">Security</a><a href="/#compare" class="hide-s">Compare</a><a href="/#pricing" class="hide-s">Pricing</a><a href="/faq/" class="">FAQ</a><a href="/support/" class="">Support</a><a class="cta" href="https://apps.apple.com/app/id6761037168">Download</a>
 </nav>
+</div></header>
+<main>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
+<section class="hero"><div class="wrap">
+<div>
+<div class="badge"><i></i>Dictation for iPhone · speech to text on your device</div>
+<h1>Dictate. Correct. Insert.<br><span class="live">Transcribed live.</span><br>All by voice.</h1>
+<p class="tagline">No cloud. No subscription.</p>
+<p class="lead">Words appear as you speak. Go back to a mistake and say it again, or add what you forgot — the transcript changes live as you edit. All on your iPhone, encrypted with AES-256, working even in airplane mode.</p>
+<div class="price-row">
+<div class="price">$9.99<small>Once. No subscription.</small></div>
+<a class="appstore" href="https://apps.apple.com/app/id6761037168"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c.02 2.43 2.13 3.24 2.15 3.25-.02.06-.34 1.15-1.11 2.28-.67.98-1.36 1.95-2.45 1.97-1.07.02-1.42-.63-2.64-.63-1.23 0-1.61.61-2.62.65-1.05.04-1.86-1.06-2.53-2.03-1.38-1.99-2.43-5.62-1.02-8.07.7-1.22 1.95-1.99 3.31-2.01 1.03-.02 2.01.7 2.64.7.63 0 1.81-.86 3.06-.73.52.02 1.98.21 2.92 1.59-.08.05-1.74 1.02-1.71 3.03M14.35 4.58c.56-.68.94-1.62.83-2.56-.81.03-1.79.54-2.37 1.21-.52.6-.98 1.56-.86 2.48.9.07 1.83-.46 2.4-1.13"/></svg><span><small>Download on the</small><b>App Store</b></span></a>
+</div>
+<p class="fineprint">7-day free trial · iPhone · iOS 26 or later · no account · US price; Apple shows yours before you buy</p>
+<div class="chips">
+<div class="chip">✈︎<span><b>Airplane mode</b>dictating offline</span></div>
+<div class="chip">🔒<span><b>AES-256</b>saved encrypted</span></div>
+</div>
+</div>
+<div class="phone" aria-hidden="true"><div class="screen"><!-- Screen recording 1 · dictating, words appearing live: replace this mock with <video autoplay muted loop playsinline src=…> -->
+<div class="status"><span>9:41</span><span>●●●</span></div>
+<div class="title"><span>KNEE FOLLOW-UP · 0:06:12.4</span><span class="mode rec">REC</span></div>
+<div class="text">Patient is a 54-year-old teacher seen for left knee pain after a fall on the stairs last Tuesday. Pain is worse with weight bearing and on stairs. No locking or giving way. Swelling noted over the <mark>medial</mark> joint</div>
+<div class="wheel rec"></div>
+<div class="tabs"><span>Voice</span><span>Sessions</span><span>Words</span><span>Help</span><span>Settings</span></div>
+</div></div>
+</div></section>
 
-  <div class="hero-badge">7-day free trial — no payment required</div>
+<section id="features" class="tight"><div class="wrap">
+<div class="grid g4">
+<div class="card"><div class="ico">✍︎</div><h3>Live transcript</h3><p>Words appear as you speak — and change live as you correct by voice.</p></div>
+<div class="card"><div class="ico">✈︎</div><h3>Works offline</h3><p>Airplane mode, basements, courtrooms. No Wi-Fi or cell needed to dictate.</p></div>
+<div class="card"><div class="ico">🔐</div><h3>AES-256 on everything</h3><p>Audio, words and the change history — encrypted on your iPhone.</p></div>
+<div class="card"><div class="ico">⊘</div><h3>No account. No tracking.</h3><p>No sign-up, no analytics. We never receive your recordings.</p></div>
+</div>
+</div></section>
 
-  <h1>Dictation that thinks<br>like a <em>professional.</em></h1>
+<section id="security"><div class="wrap">
+<div class="sec-head">
+<div class="eyebrow">Security · the worst case, considered</div>
+<h2>Cloud dictation has servers to breach.<br>SpokenAudio stays on your iPhone.</h2>
+<p class="lead">No server to hack. Cloud dictation sends every word you say to computers you will never see. Connections get intercepted, vendors get breached, passwords get phished, staff can look. SpokenAudio removes the whole chain: speech becomes text on your iPhone, and it is encrypted before it is saved. We never receive your recordings or your words.</p>
+</div>
+<div class="chains">
+<div class="chain cloud"><h3>Typical cloud dictation</h3><ol>
+<li>Your iPhone</li>
+<li>The internet<em>intercepted?</em></li>
+<li>Vendor's servers<em>breached?</em></li>
+<li>Their storage &amp; backups<em>kept how long?</em></li>
+<li>Their staff &amp; contractors<em>who can read it?</em></li>
+</ol></div>
+<div class="chain ours"><h3>SpokenAudio</h3><ol>
+<li>You speak</li>
+<li>Words appear — on the iPhone<em>no connection used</em></li>
+<li>AES-256 encrypted<em>key on this iPhone</em></li>
+<li>Saved on this iPhone only<em>Face ID app lock</em></li>
+<li>You export — password-locked<em>Word · PDF · audio · text</em></li>
+</ol></div>
+</div>
+<div class="grid g3">
+<div class="card"><div class="ico">🔐</div><h3>AES-256-GCM encryption</h3><p>Audio, transcript and modification record are encrypted on the iPhone. The key lives in the iPhone's Keychain and can't be used on any other iPhone.</p></div>
+<div class="card"><div class="ico">🛡</div><h3>Face ID, where it matters</h3><p>App lock with auto-lock. With the lock on, Face ID again before anything is deleted or exported. The app switcher shows only the icon, never your words.</p></div>
+<div class="card"><div class="ico">⌨︎</div><h3>Apple's keyboard only</h3><p>A keyboard from another app, once given Full Access, can send what you type to its maker. SpokenAudio uses Apple's keyboard for every field.</p></div>
+<div class="card"><div class="ico">✈︎</div><h3>Offline by design</h3><p>No account, no analytics, no ads. After iOS downloads its speech model once, dictation needs no connection at all.</p></div>
+<div class="card"><div class="ico">📤</div><h3>Exports locked too</h3><p>Word, PDF, audio and plain text leave encrypted with AES-256 — one strong password opens them all.</p></div>
+<div class="card"><div class="ico">🧨</div><h3>Destroy keys</h3><p>One deliberate step (type ERASE, then Face ID) deletes the key and every recording on this iPhone.</p></div>
+</div>
+<p class="note">The standards behind each of these: <a href="/security/">Security and standards</a>.</p>
+</div></section>
 
-  <p class="hero-sub">
-    Record. Rewind. Overwrite. Insert.<br>
-    Patent-pending live speech-to-text sync.<br>
-    AES-256 encryption. Built for physicians and attorneys.
-  </p>
+<section><div class="wrap split">
+<div>
+<div class="eyebrow">Edit by voice</div>
+<h2 style="margin:10px 0 16px">Fix it by voice.<br>The transcript follows live.</h2>
+<p class="lead">Turn the jog wheel back to the mistake — you hear your voice rewind, like a real dictaphone. Press record: <span class="tag ovr">OVR</span> replaces what's wrong, <span class="tag ins">INS</span> adds what you forgot. The transcript updates live while you speak. 100 levels of undo.</p>
+<ul class="bullets">
+<li><b>Jog wheel with Oxide sound</b> — three speeds, skip wedges, tap a word to jump</li>
+<li><b>Live words while you dictate</b> — speech recognition built into iOS, on the iPhone</li>
+<li><b>2–3 hour recordings</b> — built and tested for long sessions</li>
+</ul>
+</div>
+<div class="phones">
+<div class="phone" aria-hidden="true"><div class="screen"><!-- Screen recording 2 · OVR fix: replace this mock with <video autoplay muted loop playsinline src=…> -->
+<div class="status"><span>9:41</span><span>●●●</span></div>
+<div class="title"><span>KNEE FOLLOW-UP · 0:06:12.4</span><span class="mode ovr">OVR</span></div>
+<div class="text">Patient is a 54-year-old teacher seen for left knee pain after a fall on the stairs last Tuesday. Pain is worse with weight bearing and on stairs. No locking or giving way. Swelling noted over the <span class="ovr">medial joint</span></div>
+<div class="wheel"></div>
+<div class="tabs"><span>Voice</span><span>Sessions</span><span>Words</span><span>Help</span><span>Settings</span></div>
+</div></div>
+<div class="phone" aria-hidden="true"><div class="screen"><!-- Screen recording 3 · INS add: replace this mock with <video autoplay muted loop playsinline src=…> -->
+<div class="status"><span>9:41</span><span>●●●</span></div>
+<div class="title"><span>KNEE FOLLOW-UP · 0:06:12.4</span><span class="mode ins">INS</span></div>
+<div class="text">Patient is a 54-year-old teacher seen for left knee pain after a fall on the stairs last Tuesday. Pain is worse with weight bearing and on stairs. No locking or <span class="ins">giving</span> way. Swelling noted over the medial joint</div>
+<div class="wheel"></div>
+<div class="tabs"><span>Voice</span><span>Sessions</span><span>Words</span><span>Help</span><span>Settings</span></div>
+</div></div>
+</div>
+</div></section>
 
-  <div class="hero-actions">
-    <a href="https://apps.apple.com/app/doxover/id6761037168" class="btn-primary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3M6 11l6 6 6-6"/><path d="M19 21H5"/></svg>
-      Download on the App Store
-    </a>
-    <a href="#demo" class="btn-secondary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      See how it works
-    </a>
-  </div>
+<section><div class="wrap">
+<div class="sec-head">
+<div class="eyebrow">Records</div>
+<h2>Every change on record.<br>Reviews and audits made simple.</h2>
+<p class="lead">Each OVR and INS edit is logged — when, where in the audio, how long, by whom — and goes out with the export: as a table in Word and PDF, with Word's track changes or the PDF's highlights in the text. A reviewer sees what changed without replaying the whole dictation, for medical charts and legal files alike.</p>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>When</th><th>Type</th><th>At</th><th>Length</th><th>Status</th><th>Author</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Nov 7 13:44</td><td><span class="tag ovr">OVR</span></td><td>0:41.2</td><td>1.8 s</td><td>in place</td><td>Dr. R. Lee</td></tr>
+<tr><td>2</td><td>Nov 7 13:47</td><td><span class="tag ins">INS</span></td><td>0:58.6</td><td>2.4 s</td><td>in place</td><td>Dr. R. Lee</td></tr>
+<tr><td>3</td><td>Nov 7 13:49</td><td><span class="tag ovr">OVR</span></td><td>2:10.0</td><td>3.1 s</td><td class="muted">undone</td><td>Dr. R. Lee</td></tr>
+</tbody></table></div>
+</div></section>
 
-  <!-- QR code — desktop only (mobile visitors tap the button directly) -->
-  <div class="hero-qr">
-    <img src="spokenaudio-qr.png" alt="Scan to download SpokenAudio">
-    <span>Scan to download</span>
-  </div>
+<section id="export"><div class="wrap">
+<div class="sec-head">
+<div class="eyebrow">Hand it over — still locked</div>
+<h2>Word with track changes.<br>PDF. Audio. All password-locked.</h2>
+<p class="lead">When the dictation leaves your iPhone, it leaves encrypted. SpokenAudio makes a strong password for you; one password opens every file in the export. Send it a different way — a call, a text, in person. Need a clean copy? One tap: final words only — no markups, no record, nothing extra.</p>
+</div>
+<div class="grid g3">
+<div class="card"><h3>Word (.docx)</h3><p>Track changes: every OVR and INS appears as a Word revision with author and time. Modification record table at the end.</p><div class="lock">🔒 AES-256 · Office password</div></div>
+<div class="card"><h3>PDF</h3><p>A read-only copy with edits highlighted, the modification record, the audio checksum (SHA-256) and a signature line.</p><div class="lock">🔒 AES-256 · PDF 2.0 password</div></div>
+<div class="card"><h3>Audio and text (.7z)</h3><p>WAV, Apple Lossless or M4A, and the plain-text transcript, in an encrypted archive — even the file names inside stay hidden. A checksum file goes with the audio.</p><div class="lock">🔒 AES-256 · 7-Zip / Keka</div></div>
+</div>
+<p class="note">Audio checksum (SHA-256): every document gives the recording's checksum as WAV, so anyone can confirm later that the audio they hold is the audio the transcript came from.</p>
+</div></section>
 
-  <p class="hero-note">iPhone only &nbsp;·&nbsp; iOS 17+ &nbsp;·&nbsp; $14.99 after trial</p>
+<section id="compare"><div class="wrap">
+<div class="sec-head">
+<div class="eyebrow">Compare</div>
+<h2>More than a dictaphone can do.<br>More private than the cloud.</h2>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Digital dictation recorder</th><th>Cloud dictation subscription</th><th class="us">SpokenAudio</th></tr></thead>
+<tbody>
+<tr><td>Price</td><td>hundreds of dollars up front</td><td>often $1,000+ a year, per user</td><td class="us">$9.99 once</td></tr>
+<tr><td>Speech to text</td><td><span class="no">✕</span> none</td><td><span class="some">●</span> yes — on their servers</td><td class="us"><span class="yes">✓</span> yes — on your iPhone</td></tr>
+<tr><td>Works with no internet</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td><td class="us"><span class="yes">✓</span></td></tr>
+<tr><td>Encryption</td><td><span class="some">●</span> some models</td><td><span class="some">●</span> in transit and in their storage</td><td class="us"><span class="yes">✓</span> AES-256 on your iPhone</td></tr>
+<tr><td>Live transcript while editing</td><td><span class="no">✕</span></td><td><span class="some">●</span> varies</td><td class="us"><span class="yes">✓</span> OVR / INS, live</td></tr>
+<tr><td>Change history for review</td><td><span class="no">✕</span></td><td><span class="some">●</span> varies</td><td class="us"><span class="yes">✓</span> Word with track changes</td></tr>
+<tr><td>Password-locked export</td><td><span class="no">✕</span></td><td><span class="some">●</span> varies</td><td class="us"><span class="yes">✓</span> Word, PDF, audio, text</td></tr>
+<tr><td>Account required</td><td><span class="yes">✓</span> no</td><td><span class="no">✕</span> yes</td><td class="us"><span class="yes">✓</span> no</td></tr>
+</tbody></table></div>
+<p class="note">Categories, not brands. Prices checked November 2026: professional recorders about $250–$600; medical cloud dictation about $99 per user per month on a one-year term.</p>
+</div></section>
 
-  <!-- Phone mockup -->
-  <div class="device-wrap">
-    <div class="device">
-      <div class="device-notch"></div>
-      <div class="device-screen">
-        <!-- VU Meters -->
-        <div class="vu-row" id="vu-row"></div>
-        <!-- Jog wheel -->
-        <div class="jog-ring">
-          <div class="jog-dot"></div>
-          <div class="jog-center"></div>
-        </div>
-        <!-- OVR/INS toggle -->
-        <div class="ovr-ins" id="toggle">
-          <div class="ovr-btn active" id="ovr-btn">OVR</div>
-          <div class="ins-btn" id="ins-btn">INS</div>
-        </div>
-        <!-- Live transcript -->
-        <div class="transcript-strip">
-          Patient presents with
-          <span class="word">chest</span>
-          <span class="word">pain</span>
-          <span class="word">onset</span>
-          <span class="word pending" id="pending-word">approximately…</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section id="pricing" class="center"><div class="wrap">
+<div class="sec-head"><div class="eyebrow">Pricing</div><h2 style="margin-top:10px">One price. Yours to keep.</h2></div>
+<div class="pricing">
+<div class="muted" style="font-weight:650">SpokenAudio</div>
+<div class="price">$9.99<small>once · yours to keep · no subscription</small></div>
+<ul>
+<li>OVR / INS editing by voice</li>
+<li>Live transcription while you dictate and edit</li>
+<li>Jog wheel with Oxide sound</li>
+<li>100 levels of undo, 2–3 hour recordings</li>
+<li>Modification record</li>
+<li>Word, PDF, audio and plain-text export, AES-256</li>
+<li>Audio checksum (SHA-256)</li>
+<li>Face ID app lock</li>
+<li>Recording effects in several styles</li>
+</ul>
+<a class="btn" href="https://apps.apple.com/app/id6761037168">Start the 7-day free trial</a>
+<p class="fineprint" style="margin-top:14px">Less than a burger and fries — and yours to keep. Nothing to pay to start. US price; Apple shows yours before you buy.</p>
+</div>
+</div></section>
 
-<!-- OVR/INS DEMO -->
-<section class="demo-section" id="demo">
-  <div class="reveal">
-    <div class="section-label">Patent-Pending Technology</div>
-    <h2 class="section-title">Edit without<br>starting over.</h2>
-    <p class="section-sub">Two modes. One jog wheel. Surgical precision. Your transcript updates live as you re-record.</p>
-  </div>
+<section><div class="wrap" style="max-width:820px">
+<div class="sec-head center"><div class="eyebrow">Questions</div><h2 style="margin-top:10px">The short answers.</h2></div>
+<details><summary>Does it need the internet?</summary><div class="a"><p>Only twice: once when iOS downloads its speech model, and to buy or restore. Dictating, editing and exporting work with no connection.</p></div></details>
+<details><summary>Can I use it for patient or client dictation?</summary><div class="a"><p>Yes — it's built for confidential work: speech recognition on the iPhone, AES-256 encryption, Face ID, and we never receive your recordings or words. HIPAA compliance depends on how your practice handles information; check with your compliance officer.</p></div></details>
+<details><summary>What if my iPhone is lost?</summary><div class="a"><p>A locked iPhone protects your recordings — use a strong passcode and turn on SpokenAudio's app lock.</p></div></details>
+<details><summary>Do I need special hardware?</summary><div class="a"><p>No. The iPhone's microphone, AirPods or a Bluetooth headset — no foot pedal, no recorder, no transcription service.</p></div></details>
+<p class="center" style="margin-top:28px"><a href="/faq/">All questions →</a></p>
+</div></section>
 
-  <div class="demo-grid reveal">
-    <!-- OVR Card -->
-    <div class="demo-card ovr">
-      <div class="demo-mode-badge">OVR — Overwrite</div>
-      <h3>Replace exactly<br>what's wrong.</h3>
-      <p>Rewind to the mistake with the jog wheel. Hit record. Your new audio replaces the old — and your transcript updates in real time. Nothing before the cursor is touched.</p>
-
-      <!-- Animated waveform -->
-      <div class="waveform" id="ovr-wave"></div>
-
-      <div class="demo-text-wrap" id="ovr-text">
-        <span class="word">The patient was seen for </span><span id="ovr-target" class="word error">a left</span><span class="word"> knee and left shoulder pain.</span>
-      </div>
-      <div class="demo-status" id="ovr-status">Rewinding to mistake…</div>
-    </div>
-
-    <!-- INS Card -->
-    <div class="demo-card ins">
-      <div class="demo-mode-badge">INS — Insert</div>
-      <h3>Add what<br>you forgot.</h3>
-      <p>Position the playhead where you want to insert. Hit record. New audio splices in with live transcript sync — everything after shifts forward. Nothing is lost.</p>
-
-      <div class="waveform" id="ins-wave"></div>
-
-      <div class="demo-text-wrap" id="ins-text">
-        <span class="word">The patient arrived with left knee and </span><span id="ins-target"></span><span class="word" id="ins-after">shoulder pain.</span>
-      </div>
-      <div class="demo-status" id="ins-status">Positioning playhead…</div>
-    </div>
-  </div>
-
-  <!-- Real app screenshot -->
-  <div class="demo-screenshot reveal">
-    <img src="spokenaudio-app-screenshot.png" alt="SpokenAudio app showing OVR mode with live transcript, jog wheel, and waveform" loading="lazy">
-    <p class="demo-screenshot-caption">SpokenAudio in action — OVR mode with live transcript sync on iPhone</p>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="reveal">
-    <div class="section-label">Built Different</div>
-    <h2 class="section-title">Every detail<br>considered.</h2>
-  </div>
-
-  <div class="features-grid reveal">
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(26,155,138,0.12)">🎙</div>
-      <h3>Jog Wheel Transport</h3>
-      <p>Analogue-style scrubbing. Three speed stages. REW/FF hold-tap for instant jump to start or end. Oxide seek audio plays your voice back at speed.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(61,184,122,0.12)">📝</div>
-      <h3>Live Transcription (Patent Pending)</h3>
-      <p>Words appear as you speak — and stay synchronized when you overwrite or insert. Your transcript updates in real time during OVR/INS editing. Tap any word to correct it. All on-device.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(200,135,74,0.12)">↩</div>
-      <h3>100-Level Undo</h3>
-      <p>Every OVR and INS edit is reversible. Step back through your session one edit at a time. The modification record captures the full history.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(26,155,138,0.12)">📤</div>
-      <h3>Multi-Format Export</h3>
-      <p>Export audio as WAV. Export transcripts as plain text or SRT subtitle format. Share directly to any HIPAA-compliant destination.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(61,184,122,0.12)">🔊</div>
-      <h3>Oxide Seek Audio</h3>
-      <p>Hear your own voice rewind as you scrub — exactly like a real dictaphone. Or switch to Electro mode for a clean electronic sweep.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(200,135,74,0.12)">📁</div>
-      <h3>Smart File Management</h3>
-      <p>Delete audio only and keep the transcript. View modification records per file. Storage banner tracks encrypted usage. Dormant session archive.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SECURITY -->
-<section class="security-section" id="security">
-  <div class="reveal">
-    <div class="section-label">Security First</div>
-    <h2 class="section-title">HIPAA-grade<br>from the ground up.</h2>
-    <p style="color:var(--muted);font-size:17px;font-weight:300;margin-top:16px;max-width:400px">Every recording is encrypted before it touches storage. Nothing leaves your device. Ever.</p>
-  </div>
-  <div class="security-badges reveal">
-    <div class="security-badge">
-      <div class="security-badge-icon">🔐</div>
-      <div>
-        <h4>AES-256-GCM Encryption</h4>
-        <p>Military-grade authenticated encryption on every recording and transcript before saving.</p>
-      </div>
-    </div>
-    <div class="security-badge">
-      <div class="security-badge-icon">🔑</div>
-      <div>
-        <h4>Secure Enclave Key Storage</h4>
-        <p>Encryption keys live in Apple's hardware-isolated Secure Enclave. They never leave the chip.</p>
-      </div>
-    </div>
-    <div class="security-badge">
-      <div class="security-badge-icon">📱</div>
-      <div>
-        <h4>100% On-Device Processing</h4>
-        <p>Speech recognition runs locally using Apple's framework. Zero audio transmitted anywhere.</p>
-      </div>
-    </div>
-    <div class="security-badge">
-      <div class="security-badge-icon">🛡</div>
-      <div>
-        <h4>Face ID / Touch ID Lock</h4>
-        <p>Biometric lock with auto-lock on inactivity. Secure deletion destroys all keys instantly.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="reveal">
-    <div class="section-label">Simple Pricing</div>
-    <h2 class="section-title">One price.<br>Everything included.</h2>
-  </div>
-
-  <div class="pricing-card reveal">
-    <div class="trial-badge">✦ 7-day free trial — no credit card required</div>
-    <div class="pricing-tier">SpokenAudio Pocket</div>
-    <div class="pricing-price"><sup>$</sup>14<span style="font-size:40px">.99</span></div>
-    <div class="pricing-note">One-time purchase &nbsp;·&nbsp; No subscription &nbsp;·&nbsp; No recurring fees</div>
-
-    <ul class="pricing-features">
-      <li>Unlimited recording length</li>
-      <li>OVR/INS editing with live transcript sync</li>
-      <li>Live transcription</li>
-      <li>100-level undo</li>
-      <li>Word correction</li>
-      <li>WAV, TXT, SRT export</li>
-      <li>Modification record</li>
-      <li>AES-256 encryption</li>
-      <li>Face ID / Touch ID</li>
-      <li>Oxide seek audio</li>
-    </ul>
-
-    <a href="https://apps.apple.com/app/doxover/id6761037168" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:16px">
-      Start Free Trial
-    </a>
-    <p style="margin-top:12px;font-size:13px;color:var(--muted)">Download free · Full access for 7 days · $14.99 to keep forever</p>
-
-    <!-- QR Code -->
-    <div style="margin-top:24px;text-align:center">
-      <img src="spokenaudio-qr.png" alt="Scan to download SpokenAudio" style="width:120px;height:120px;border-radius:8px;background:#fff;padding:6px">
-      <p style="margin-top:8px;font-size:11px;color:var(--muted)">Scan with your iPhone camera</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq-section" id="faq">
-  <div class="reveal" style="text-align:center">
-    <div class="section-label">Questions</div>
-    <h2 class="section-title">Frequently asked.</h2>
-    <p style="color:var(--muted);font-size:17px;font-weight:300;margin:16px auto 36px;max-width:480px">Recording, editing, transcription, export, security, HIPAA, pricing, troubleshooting — we've answered them all.</p>
-    <a href="/faq" class="btn-primary" style="font-size:16px;padding:14px 32px">
-      View all FAQs
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <a href="#" class="footer-logo"><img src="spokenaudio-icon.png" alt="SpokenAudio icon"><span class="footer-logo-text">Spoken<span>Audio</span></span></a>
-  <div class="footer-links">
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/support">Support</a>
-    <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a>
-  </div>
-  <p class="footer-copy">© 2026 Create Simple Code LLC &nbsp;·&nbsp; SpokenAudio™ &nbsp;·&nbsp; All rights reserved.</p>
-</footer>
-
-<!-- Support chat FAB (replace with Tidio/Crisp script) -->
-
-<script>
-// ── VU METERS ──
-const vuRow = document.getElementById('vu-row');
-const vuCount = 28;
-const vus = [];
-for (let i = 0; i < vuCount; i++) {
-  const bar = document.createElement('div');
-  bar.className = 'vu-bar';
-  const fill = document.createElement('div');
-  fill.className = 'vu-fill';
-  fill.style.height = '30%';
-  bar.appendChild(fill);
-  vuRow.appendChild(bar);
-  vus.push(fill);
-}
-function animateVU() {
-  vus.forEach((fill, i) => {
-    const center = vuCount / 2;
-    const dist = Math.abs(i - center) / center;
-    const base = (1 - dist * 0.4) * 0.6;
-    const h = (base + Math.random() * 0.35) * 100;
-    fill.style.height = Math.min(95, h) + '%';
-  });
-}
-setInterval(animateVU, 120);
-
-// ── OVR/INS TOGGLE ANIMATION ──
-let isOVR = true;
-setInterval(() => {
-  isOVR = !isOVR;
-  document.getElementById('ovr-btn').className = 'ovr-btn' + (isOVR ? ' active' : '');
-  document.getElementById('ins-btn').className = 'ins-btn' + (!isOVR ? ' active' : '');
-}, 3000);
-
-// ── PENDING WORD ──
-const words = ['three…', 'approximately…', 'two…', 'several…'];
-let wi = 0;
-setInterval(() => {
-  wi = (wi + 1) % words.length;
-  document.getElementById('pending-word').textContent = words[wi];
-}, 2000);
-
-// ── WAVEFORM BARS ──
-function buildWave(id, count, pattern) {
-  const el = document.getElementById(id);
-  for (let i = 0; i < count; i++) {
-    const b = document.createElement('div');
-    b.className = 'wave-bar ' + (pattern[i] || 'old');
-    const h = 8 + Math.random() * 32;
-    b.style.height = h + 'px';
-    el.appendChild(b);
-  }
-}
-// OVR: shows old audio, cursor, then new audio
-buildWave('ovr-wave', 40, Object.fromEntries(
-  [...Array(40)].map((_, i) => [i, i < 18 ? 'old' : i === 18 ? 'cursor' : 'new'])
-));
-// INS: shows original with gap and inserted content
-buildWave('ins-wave', 40, Object.fromEntries(
-  [...Array(40)].map((_, i) => [i, i < 16 ? 'old' : i < 26 ? 'new' : 'old'])
-));
-
-// Animate OVR text — word-by-word typing
-function runOvrAnim() {
-  const target = document.getElementById('ovr-target');
-  const status = document.getElementById('ovr-status');
-  const ovrWords = ['right', ' hip', ' and', ' right'];
-  if (!target || !status) return;
-
-  // Phase 1: show error state
-  target.className = 'word error';
-  target.textContent = 'a left';
-  status.textContent = 'Rewinding to mistake…';
-
-  // Phase 2: strikethrough + cursor
-  setTimeout(() => {
-    target.innerHTML = '<span class="word struck">a left</span><span class="typing-cursor"></span>';
-    status.textContent = 'Recording over…';
-  }, 1500);
-
-  // Phase 3: type words one at a time
-  let i = 0;
-  function typeNext() {
-    if (i >= ovrWords.length) {
-      setTimeout(() => {
-        target.innerHTML = '<span class="word replaced">right hip and right</span>';
-        status.textContent = 'Transcript synced with audio ✓';
-        setTimeout(runOvrAnim, 3500);
-      }, 800);
-      return;
-    }
-    setTimeout(() => {
-      const typed = ovrWords.slice(0, i + 1).join('');
-      target.innerHTML = '<span class="word replaced">' + typed + '</span><span class="typing-cursor"></span>';
-      i++;
-      typeNext();
-    }, 550);
-  }
-  setTimeout(typeNext, 2800);
-}
-setTimeout(runOvrAnim, 500);
-
-// Animate INS text — word-by-word insertion
-function runInsAnim() {
-  const target = document.getElementById('ins-target');
-  const status = document.getElementById('ins-status');
-  const insWords = ['right', ' hip,', ' right'];
-  if (!target || !status) return;
-
-  // Phase 1: no insertion yet
-  target.innerHTML = '';
-  status.textContent = 'Positioning playhead…';
-
-  // Phase 2: cursor appears
-  setTimeout(() => {
-    target.innerHTML = '<span class="typing-cursor"></span>';
-    status.textContent = 'Inserting audio…';
-  }, 1800);
-
-  // Phase 3: type words one at a time
-  let i = 0;
-  function typeNext() {
-    if (i >= insWords.length) {
-      setTimeout(() => {
-        target.innerHTML = '<span class="word inserted">right hip, right </span>';
-        status.textContent = 'Transcript synced — text shifted forward ✓';
-        setTimeout(runInsAnim, 3500);
-      }, 800);
-      return;
-    }
-    setTimeout(() => {
-      const typed = insWords.slice(0, i + 1).join('');
-      target.innerHTML = '<span class="word inserted">' + typed + '</span><span class="typing-cursor"></span> ';
-      i++;
-      typeNext();
-    }, 550);
-  }
-  setTimeout(typeNext, 3000);
-}
-setTimeout(runInsAnim, 1200);
-
-// ── SCROLL REVEAL ──
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-
-</script>
+</main>
+<footer><div class="wrap">
+<div>© 2026 Create Simple Code LLC · SpokenAudio™ · <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a><br><span class="warn">Never email patient or client information to support.</span></div>
+<nav><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/security/">Security</a><a href="/faq/">FAQ</a><a href="/support/">Support</a></nav>
+</div></footer>
 </body>
 </html>
