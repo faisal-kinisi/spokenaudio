@@ -52,7 +52,7 @@
 <div class="grid g4">
 <div class="card"><div class="ico">✍︎</div><h3>Live transcript</h3><p>Words appear as you speak — and change live as you correct by voice.</p></div>
 <div class="card"><div class="ico">✈︎</div><h3>Works offline</h3><p>Airplane mode, basements, courtrooms. No Wi-Fi or cell needed to dictate.</p></div>
-<div class="card"><div class="ico">🔐</div><h3>AES-256 on everything</h3><p>Audio, words and the change history — encrypted on your iPhone.</p></div>
+<div class="card"><div class="ico">🔐</div><h3>AES-256 on your recordings</h3><p>Audio, words and the change history — encrypted on your iPhone.</p></div>
 <div class="card"><div class="ico">⊘</div><h3>No account. No tracking.</h3><p>No sign-up, no analytics. We never receive your recordings.</p></div>
 </div>
 </div></section>
@@ -81,7 +81,7 @@
 </div>
 <div class="grid g3">
 <div class="card"><div class="ico">🔐</div><h3>AES-256-GCM encryption</h3><p>Audio, transcript and modification record are encrypted on the iPhone. The key lives in the iPhone's Keychain and can't be used on any other iPhone.</p></div>
-<div class="card"><div class="ico">🛡</div><h3>Face ID, where it matters</h3><p>App lock with auto-lock. With the lock on, Face ID again before anything is deleted or exported. The app switcher shows only the icon, never your words.</p></div>
+<div class="card"><div class="ico">🛡</div><h3>Face ID, where it matters</h3><p>App lock with auto-lock. With the lock on, Face ID again before anything is deleted, and before exporting (once every 5 minutes). The app switcher shows only the icon, never your words.</p></div>
 <div class="card"><div class="ico">⌨︎</div><h3>Apple's keyboard only</h3><p>A keyboard from another app, once given Full Access, can send what you type to its maker. SpokenAudio uses Apple's keyboard for every field.</p></div>
 <div class="card"><div class="ico">✈︎</div><h3>Offline by design</h3><p>No account, no analytics, no ads. After iOS downloads its speech model once, dictation needs no connection at all.</p></div>
 <div class="card"><div class="ico">📤</div><h3>Exports locked too</h3><p>Word, PDF, audio and plain text leave encrypted with AES-256 — one strong password opens them all.</p></div>
@@ -96,7 +96,7 @@
 <h2 style="margin:10px 0 16px">Fix it by voice.<br>The transcript follows live.</h2>
 <p class="lead">Turn the jog wheel back to the mistake — you hear your voice rewind, like a real dictaphone. Press record: <span class="tag ovr">OVR</span> replaces what's wrong, <span class="tag ins">INS</span> adds what you forgot. The transcript updates live while you speak. 100 levels of undo.</p>
 <ul class="bullets">
-<li><b>Jog wheel with Oxide sound</b> — three speeds, skip wedges, tap a word to jump</li>
+<li><b>Jog wheel with Oxide sound</b> — turn to move, faster the further you turn; skip wedges; tap a word to jump</li>
 <li><b>Live words while you dictate</b> — speech recognition built into iOS, on the iPhone</li>
 <li><b>2–3 hour recordings</b> — built and tested for long sessions</li>
 </ul>
@@ -122,8 +122,8 @@
 <section><div class="wrap">
 <div class="sec-head">
 <div class="eyebrow">Records</div>
-<h2>Every change on record.<br>Reviews and audits made simple.</h2>
-<p class="lead">Each OVR and INS edit is logged — when, where in the audio, how long, by whom — and goes out with the export: as a table in Word and PDF, with Word's track changes or the PDF's highlights in the text. A reviewer sees what changed without replaying the whole dictation, for medical charts and legal files alike.</p>
+<h2>Every OVR and INS edit, listed.<br>Reviews and audits made simple.</h2>
+<p class="lead">Each OVR and INS edit is logged — when, where in the audio, how long, under the author name in your Profile — and goes out with the export: as a table in Word and PDF, with Word's track changes or the PDF's highlights in the text. A reviewer sees what changed without replaying the whole dictation, for medical charts and legal files alike.</p>
 </div>
 <div class="table-wrap"><table>
 <thead><tr><th>#</th><th>When</th><th>Type</th><th>At</th><th>Length</th><th>Status</th><th>Author</th></tr></thead>
@@ -138,14 +138,14 @@
 <div class="sec-head">
 <div class="eyebrow">Hand it over — still locked</div>
 <h2>Word with track changes.<br>PDF. Audio. All password-locked.</h2>
-<p class="lead">When the dictation leaves your iPhone, it leaves encrypted. SpokenAudio makes a strong password for you; one password opens every file in the export. Send it a different way — a call, a text, in person. Need a clean copy? One tap: final words only — no markups, no record, nothing extra.</p>
+<p class="lead">Protected exports leave your iPhone encrypted. SpokenAudio makes a strong password for you; one password opens every file in the export. Send it a different way — a call, a text, in person. Need a clean copy? One tap: final words only — no markups, no record, nothing extra.</p>
 </div>
 <div class="grid g3">
 <div class="card"><h3>Word (.docx)</h3><p>Track changes: every OVR and INS appears as a Word revision with author and time. Modification record table at the end.</p><div class="lock">🔒 AES-256 · Office password</div></div>
-<div class="card"><h3>PDF</h3><p>A read-only copy with edits highlighted, the modification record, the audio checksum (SHA-256) and a signature line.</p><div class="lock">🔒 AES-256 · PDF 2.0 password</div></div>
+<div class="card"><h3>PDF</h3><p>A copy to read, print or sign with edits highlighted, the modification record, the audio checksum (SHA-256) and a signature line.</p><div class="lock">🔒 AES-256 · PDF 2.0 password</div></div>
 <div class="card"><h3>Audio and text (.7z)</h3><p>WAV, Apple Lossless or M4A, and the plain-text transcript, in an encrypted archive — even the file names inside stay hidden. A checksum file goes with the audio.</p><div class="lock">🔒 AES-256 · 7-Zip / Keka</div></div>
 </div>
-<p class="note">Audio checksum (SHA-256): every document gives the recording's checksum as WAV, so anyone can confirm later that the audio they hold is the audio the transcript came from.</p>
+<p class="note">Audio checksum (SHA-256): every document gives the recording's checksum as WAV, so anyone can check that an audio file is byte-for-byte the one exported with it. It isn't a signature: it doesn't prove who made the recording or when.</p>
 </div></section>
 
 <section id="compare"><div class="wrap">
@@ -192,7 +192,7 @@
 <section><div class="wrap" style="max-width:820px">
 <div class="sec-head center"><div class="eyebrow">Questions</div><h2 style="margin-top:10px">The short answers.</h2></div>
 <details><summary>Does it need the internet?</summary><div class="a"><p>Only twice: once when iOS downloads its speech model, and to buy or restore. Dictating, editing and exporting work with no connection.</p></div></details>
-<details><summary>Can I use it for patient or client dictation?</summary><div class="a"><p>Yes — it's built for confidential work: speech recognition on the iPhone, AES-256 encryption, Face ID, and we never receive your recordings or words. HIPAA compliance depends on how your practice handles information; check with your compliance officer.</p></div></details>
+<details><summary>Can I use it for patient or client dictation?</summary><div class="a"><p>Many professionals use it: speech recognition on the iPhone, AES-256 encryption, Face ID, and we never receive your recordings or words. Whether it fits your obligations — HIPAA, privilege, GDPR — is your decision; check with your compliance officer.</p></div></details>
 <details><summary>What if my iPhone is lost?</summary><div class="a"><p>A locked iPhone protects your recordings — use a strong passcode and turn on SpokenAudio's app lock.</p></div></details>
 <details><summary>Do I need special hardware?</summary><div class="a"><p>No. The iPhone's microphone, AirPods or a Bluetooth headset — no foot pedal, no recorder, no transcription service.</p></div></details>
 <p class="center" style="margin-top:28px"><a href="/faq/">All questions →</a></p>
@@ -200,7 +200,7 @@
 
 </main>
 <footer><div class="wrap">
-<div>© 2026 Create Simple Code LLC · SpokenAudio™ · <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a><br><span class="warn">Never email patient, client or other sensitive information to support.</span></div>
+<div>© 2026 Create Simple Code LLC · SpokenAudio™ · <a href="mailto:support@spokenaudio.com">support@spokenaudio.com</a> · <a href="/legal/">Legal notice</a><br><span class="warn">Never email patient, client or other sensitive information to support.</span><br><small>Apple, the Apple logo, iPhone and App Store are trademarks of Apple Inc. Other names are trademarks of their owners.</small></div>
 <nav><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/security/">Security</a><a href="/faq/">FAQ</a><a href="/support/">Support</a></nav>
 </div></footer>
 </body>
